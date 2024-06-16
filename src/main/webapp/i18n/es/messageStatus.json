@@ -1,0 +1,10 @@
+{
+  "cdexApp": {
+    "MessageStatus": {
+      "null": "",
+      "SEND": "SEND",
+      "READ": "READ",
+      "DELETED": "DELETED"
+    }
+  }
+}

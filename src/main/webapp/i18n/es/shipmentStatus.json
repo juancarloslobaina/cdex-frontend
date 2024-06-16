@@ -1,0 +1,14 @@
+{
+  "cdexApp": {
+    "ShipmentStatus": {
+      "null": "",
+      "CREATED": "CREATED",
+      "ACCEPTED": "ACCEPTED",
+      "ASSIGNED": "ASSIGNED",
+      "ONWAY": "ONWAY",
+      "COMPLETED": "COMPLETED",
+      "CANCELED": "CANCELED",
+      "REFUSED": "REFUSED"
+    }
+  }
+}

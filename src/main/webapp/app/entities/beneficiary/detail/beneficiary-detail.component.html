@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (beneficiary()) {
+      <div>
+        <h2 data-cy="beneficiaryDetailsHeading"><span jhiTranslate="cdexApp.beneficiary.detail.title">Beneficiary</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ beneficiary()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.beneficiary.alias">Alias</span></dt>
+          <dd>
+            <span>{{ beneficiary()!.alias }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.beneficiary.phone">Phone</span></dt>
+          <dd>
+            <span>{{ beneficiary()!.phone }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.beneficiary.city">City</span></dt>
+          <dd>
+            <span>{{ beneficiary()!.city }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.beneficiary.address">Address</span></dt>
+          <dd>
+            <span>{{ beneficiary()!.address }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.beneficiary.referenceAddress">Reference Address</span></dt>
+          <dd>
+            <span>{{ beneficiary()!.referenceAddress }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.beneficiary.user">User</span></dt>
+          <dd>
+            <span>{{ beneficiary()!.user?.login }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/beneficiary', beneficiary()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

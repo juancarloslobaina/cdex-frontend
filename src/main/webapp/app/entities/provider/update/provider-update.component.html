@@ -1,0 +1,108 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-provider-heading" data-cy="ProviderCreateUpdateHeading" jhiTranslate="cdexApp.provider.home.createOrEditLabel">
+        Crear o editar Provider
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="cdexApp.provider.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_referralCode" jhiTranslate="cdexApp.provider.referralCode">Referral Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="referralCode"
+            id="field_referralCode"
+            data-cy="referralCode"
+            formControlName="referralCode"
+          />
+          @if (editForm.get('referralCode')!.invalid && (editForm.get('referralCode')!.dirty || editForm.get('referralCode')!.touched)) {
+            <div>
+              @if (editForm.get('referralCode')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_user" jhiTranslate="cdexApp.provider.user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            @if (!editForm.get('user')!.value) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (userOption of usersSharedCollection; track $index) {
+              <option [ngValue]="userOption">{{ userOption.login }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['user'])!.invalid && (editForm.get(['user'])!.dirty || editForm.get(['user'])!.touched)) {
+          <div>
+            @if (editForm.get(['user'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+            }
+          </div>
+        }
+
+        <div class="mb-3">
+          <label for="field_clients" jhiTranslate="cdexApp.provider.client">Client</label>
+          <select
+            class="form-control"
+            id="field_clients"
+            data-cy="client"
+            multiple
+            name="clients"
+            formControlName="clients"
+            [compareWith]="compareClient"
+          >
+            @for (clientOption of clientsSharedCollection; track $index) {
+              <option [ngValue]="clientOption">{{ clientOption.id }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="field_deliveries" jhiTranslate="cdexApp.provider.delivery">Delivery</label>
+          <select
+            class="form-control"
+            id="field_deliveries"
+            data-cy="delivery"
+            multiple
+            name="deliveries"
+            formControlName="deliveries"
+            [compareWith]="compareDelivery"
+          >
+            @for (deliveryOption of deliveriesSharedCollection; track $index) {
+              <option [ngValue]="deliveryOption">{{ deliveryOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

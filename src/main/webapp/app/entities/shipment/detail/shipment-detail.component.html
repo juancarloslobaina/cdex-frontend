@@ -1,0 +1,114 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (shipment()) {
+      <div>
+        <h2 data-cy="shipmentDetailsHeading"><span jhiTranslate="cdexApp.shipment.detail.title">Shipment</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ shipment()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.shipment.reference">Reference</span></dt>
+          <dd>
+            <span>{{ shipment()!.reference }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.shipment.amount">Amount</span></dt>
+          <dd>
+            <span>{{ shipment()!.amount }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.shipment.createdAt">Created At</span></dt>
+          <dd>
+            <span>{{ shipment()!.createdAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.shipment.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'cdexApp.ShipmentStatus.' + (shipment()!.status ?? 'null')">{{
+              {
+                null: '',
+                CREATED: 'CREATED',
+                ACCEPTED: 'ACCEPTED',
+                ASSIGNED: 'ASSIGNED',
+                ONWAY: 'ONWAY',
+                COMPLETED: 'COMPLETED',
+                CANCELED: 'CANCELED',
+                REFUSED: 'REFUSED'
+              }[shipment()!.status ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.shipment.type">Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'cdexApp.ShiptmentType.' + (shipment()!.type ?? 'null')">{{
+              { null: '', ALL: 'ALL', MONEY: 'MONEY', FOOD: 'FOOD' }[shipment()!.type ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.shipment.active">Active</span></dt>
+          <dd>
+            <span>{{ shipment()!.active }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.shipment.screenshot">Screenshot</span></dt>
+          <dd>
+            @if (shipment()!.screenshot) {
+              <div>
+                <a (click)="openFile(shipment()!.screenshot ?? '', shipment()!.screenshotContentType)">
+                  <img
+                    [src]="'data:' + shipment()!.screenshotContentType + ';base64,' + shipment()!.screenshot"
+                    style="max-width: 100%"
+                    alt="shipment"
+                  />
+                </a>
+                {{ shipment()!.screenshotContentType }}, {{ byteSize(shipment()!.screenshot ?? '') }}
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="cdexApp.shipment.client">Client</span></dt>
+          <dd>
+            @if (shipment()!.client) {
+              <div>
+                <a [routerLink]="['/client', shipment()!.client?.id, 'view']">{{ shipment()!.client?.id }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="cdexApp.shipment.provider">Provider</span></dt>
+          <dd>
+            @if (shipment()!.provider) {
+              <div>
+                <a [routerLink]="['/provider', shipment()!.provider?.id, 'view']">{{ shipment()!.provider?.id }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="cdexApp.shipment.delivery">Delivery</span></dt>
+          <dd>
+            @if (shipment()!.delivery) {
+              <div>
+                <a [routerLink]="['/delivery', shipment()!.delivery?.id, 'view']">{{ shipment()!.delivery?.id }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="cdexApp.shipment.beneficiary">Beneficiary</span></dt>
+          <dd>
+            @if (shipment()!.beneficiary) {
+              <div>
+                <a [routerLink]="['/beneficiary', shipment()!.beneficiary?.id, 'view']">{{ shipment()!.beneficiary?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/shipment', shipment()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

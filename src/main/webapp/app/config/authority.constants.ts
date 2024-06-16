@@ -1,0 +1,6 @@
+export enum Authority {
+  ADMIN = 'ROLE_ADMIN',
+  CLIENT = 'ROLE_CLIENT',
+  PROVIDER = 'ROLE_PROVIDER',
+  DELIVERY = 'ROLE_DELIVERY',
+}

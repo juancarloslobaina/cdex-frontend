@@ -1,0 +1,9 @@
+{
+  "cdexApp": {
+    "NotificationStatus": {
+      "null": "",
+      "NEW": "NEW",
+      "READ": "READ"
+    }
+  }
+}

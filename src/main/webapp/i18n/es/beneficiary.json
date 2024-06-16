@@ -1,0 +1,29 @@
+{
+  "cdexApp": {
+    "beneficiary": {
+      "home": {
+        "title": "Beneficiaries",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Beneficiary",
+        "createOrEditLabel": "Crear o editar Beneficiary",
+        "notFound": "Ningún Beneficiaries encontrado"
+      },
+      "created": "Un nuevo Beneficiary ha sido creado con el identificador {{ param }}",
+      "updated": "Un Beneficiary ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Beneficiary ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Beneficiary {{ id }}?"
+      },
+      "detail": {
+        "title": "Beneficiary"
+      },
+      "id": "ID",
+      "alias": "Alias",
+      "phone": "Phone",
+      "city": "City",
+      "address": "Address",
+      "referenceAddress": "Reference Address",
+      "user": "User"
+    }
+  }
+}

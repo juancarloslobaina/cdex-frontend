@@ -1,0 +1,27 @@
+{
+  "cdexApp": {
+    "delivery": {
+      "home": {
+        "title": "Deliveries",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Delivery",
+        "createOrEditLabel": "Crear o editar Delivery",
+        "notFound": "Ningún Deliveries encontrado"
+      },
+      "created": "Un nuevo Delivery ha sido creado con el identificador {{ param }}",
+      "updated": "Un Delivery ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Delivery ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Delivery {{ id }}?"
+      },
+      "detail": {
+        "title": "Delivery"
+      },
+      "id": "ID",
+      "cashAvailable": "Cash Available",
+      "location": "Location",
+      "user": "User",
+      "provider": "Provider"
+    }
+  }
+}

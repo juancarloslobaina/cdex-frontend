@@ -1,0 +1,233 @@
+<div>
+  <h2 id="page-heading" data-cy="ShipmentHeading">
+    <span jhiTranslate="cdexApp.shipment.home.title">Shipments</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cdexApp.shipment.home.refreshListLabel">Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-shipment"
+        [routerLink]="['/shipment/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cdexApp.shipment.home.createLabel">Crear nuevo Shipment</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  @if (shipments?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="cdexApp.shipment.home.notFound">Ningún Shipments encontrado</span>
+    </div>
+  }
+
+  @if (shipments && shipments.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="reference">
+              <div class="d-flex">
+                <span jhiTranslate="cdexApp.shipment.reference">Reference</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="amount">
+              <div class="d-flex">
+                <span jhiTranslate="cdexApp.shipment.amount">Amount</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdAt">
+              <div class="d-flex">
+                <span jhiTranslate="cdexApp.shipment.createdAt">Created At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="status">
+              <div class="d-flex">
+                <span jhiTranslate="cdexApp.shipment.status">Status</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="type">
+              <div class="d-flex">
+                <span jhiTranslate="cdexApp.shipment.type">Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="active">
+              <div class="d-flex">
+                <span jhiTranslate="cdexApp.shipment.active">Active</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="screenshot">
+              <div class="d-flex">
+                <span jhiTranslate="cdexApp.shipment.screenshot">Screenshot</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="client.id">
+              <div class="d-flex">
+                <span jhiTranslate="cdexApp.shipment.client">Client</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="provider.id">
+              <div class="d-flex">
+                <span jhiTranslate="cdexApp.shipment.provider">Provider</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="delivery.id">
+              <div class="d-flex">
+                <span jhiTranslate="cdexApp.shipment.delivery">Delivery</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="beneficiary.id">
+              <div class="d-flex">
+                <span jhiTranslate="cdexApp.shipment.beneficiary">Beneficiary</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (shipment of shipments; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/shipment', shipment.id, 'view']">{{ shipment.id }}</a>
+              </td>
+              <td>{{ shipment.reference }}</td>
+              <td>{{ shipment.amount }}</td>
+              <td>{{ shipment.createdAt | formatMediumDatetime }}</td>
+              <td [jhiTranslate]="'cdexApp.ShipmentStatus.' + (shipment.status ?? 'null')">
+                {{
+                  {
+                    null: '',
+                    CREATED: 'CREATED',
+                    ACCEPTED: 'ACCEPTED',
+                    ASSIGNED: 'ASSIGNED',
+                    ONWAY: 'ONWAY',
+                    COMPLETED: 'COMPLETED',
+                    CANCELED: 'CANCELED',
+                    REFUSED: 'REFUSED'
+                  }[shipment.status ?? 'null']
+                }}
+              </td>
+              <td [jhiTranslate]="'cdexApp.ShiptmentType.' + (shipment.type ?? 'null')">
+                {{ { null: '', ALL: 'ALL', MONEY: 'MONEY', FOOD: 'FOOD' }[shipment.type ?? 'null'] }}
+              </td>
+              <td>{{ shipment.active }}</td>
+              <td>
+                @if (shipment.screenshot) {
+                  <a (click)="openFile(shipment.screenshot, shipment.screenshotContentType)">
+                    <img
+                      [src]="'data:' + shipment.screenshotContentType + ';base64,' + shipment.screenshot"
+                      style="max-height: 30px"
+                      alt="shipment"
+                    />
+                  </a>
+                  <span>{{ shipment.screenshotContentType }}, {{ byteSize(shipment.screenshot) }}</span>
+                }
+              </td>
+              <td>
+                @if (shipment.client) {
+                  <div>
+                    <a [routerLink]="['/client', shipment.client.id, 'view']">{{ shipment.client.id }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (shipment.provider) {
+                  <div>
+                    <a [routerLink]="['/provider', shipment.provider.id, 'view']">{{ shipment.provider.id }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (shipment.delivery) {
+                  <div>
+                    <a [routerLink]="['/delivery', shipment.delivery.id, 'view']">{{ shipment.delivery.id }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (shipment.beneficiary) {
+                  <div>
+                    <a [routerLink]="['/beneficiary', shipment.beneficiary.id, 'view']">{{ shipment.beneficiary.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/shipment', shipment.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Vista</span>
+                  </a>
+
+                  <a [routerLink]="['/shipment', shipment.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(shipment)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Eliminar</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (shipments && shipments.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

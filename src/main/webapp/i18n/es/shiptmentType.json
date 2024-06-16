@@ -1,0 +1,10 @@
+{
+  "cdexApp": {
+    "ShiptmentType": {
+      "null": "",
+      "ALL": "ALL",
+      "MONEY": "MONEY",
+      "FOOD": "FOOD"
+    }
+  }
+}

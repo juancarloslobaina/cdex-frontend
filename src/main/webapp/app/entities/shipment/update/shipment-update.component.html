@@ -1,0 +1,292 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-shipment-heading" data-cy="ShipmentCreateUpdateHeading" jhiTranslate="cdexApp.shipment.home.createOrEditLabel">
+        Crear o editar Shipment
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="cdexApp.shipment.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_reference" jhiTranslate="cdexApp.shipment.reference">Reference</label>
+          <input type="text" class="form-control" name="reference" id="field_reference" data-cy="reference" formControlName="reference" />
+          @if (editForm.get('reference')!.invalid && (editForm.get('reference')!.dirty || editForm.get('reference')!.touched)) {
+            <div>
+              @if (editForm.get('reference')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_amount" jhiTranslate="cdexApp.shipment.amount">Amount</label>
+          <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
+          @if (editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)) {
+            <div>
+              @if (editForm.get('amount')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('amount')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >Este campo debe ser un número.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_createdAt" jhiTranslate="cdexApp.shipment.createdAt">Created At</label>
+          <div class="d-flex">
+            <input
+              id="field_createdAt"
+              data-cy="createdAt"
+              type="datetime-local"
+              class="form-control"
+              name="createdAt"
+              formControlName="createdAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (editForm.get('createdAt')!.invalid && (editForm.get('createdAt')!.dirty || editForm.get('createdAt')!.touched)) {
+            <div>
+              @if (editForm.get('createdAt')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('createdAt')?.errors?.datetimelocal"
+                jhiTranslate="entity.validation.datetimelocal"
+                >Este campo debe ser una fecha y hora.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_status" jhiTranslate="cdexApp.shipment.status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null">{{ 'cdexApp.ShipmentStatus.null' | translate }}</option>
+            @for (shipmentStatus of shipmentStatusValues; track $index) {
+              <option [value]="shipmentStatus">{{ 'cdexApp.ShipmentStatus.' + shipmentStatus | translate }}</option>
+            }
+          </select>
+          @if (editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)) {
+            <div>
+              @if (editForm.get('status')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_type" jhiTranslate="cdexApp.shipment.type">Type</label>
+          <select class="form-control" name="type" formControlName="type" id="field_type" data-cy="type">
+            <option [ngValue]="null">{{ 'cdexApp.ShiptmentType.null' | translate }}</option>
+            @for (shiptmentType of shiptmentTypeValues; track $index) {
+              <option [value]="shiptmentType">{{ 'cdexApp.ShiptmentType.' + shiptmentType | translate }}</option>
+            }
+          </select>
+          @if (editForm.get('type')!.invalid && (editForm.get('type')!.dirty || editForm.get('type')!.touched)) {
+            <div>
+              @if (editForm.get('type')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_active" jhiTranslate="cdexApp.shipment.active">Active</label>
+          <input type="checkbox" class="form-check" name="active" id="field_active" data-cy="active" formControlName="active" />
+          @if (editForm.get('active')!.invalid && (editForm.get('active')!.dirty || editForm.get('active')!.touched)) {
+            <div>
+              @if (editForm.get('active')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_screenshot" jhiTranslate="cdexApp.shipment.screenshot">Screenshot</label>
+          <div>
+            @if (editForm.get('screenshot')!.value) {
+              <img
+                [src]="'data:' + editForm.get('screenshotContentType')!.value + ';base64,' + editForm.get('screenshot')!.value"
+                style="max-height: 100px"
+                alt="shipment"
+              />
+            }
+            @if (editForm.get('screenshot')!.value) {
+              <div class="form-text text-danger clearfix">
+                <span class="pull-start"
+                  >{{ editForm.get('screenshotContentType')!.value }}, {{ byteSize(editForm.get('screenshot')!.value!) }}</span
+                >
+                <button
+                  type="button"
+                  (click)="clearInputImage('screenshot', 'screenshotContentType', 'file_screenshot')"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            }
+            <input
+              type="file"
+              id="file_screenshot"
+              data-cy="screenshot"
+              (change)="setFileData($event, 'screenshot', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input
+            type="hidden"
+            class="form-control"
+            name="screenshot"
+            id="field_screenshot"
+            data-cy="screenshot"
+            formControlName="screenshot"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            name="screenshotContentType"
+            id="field_screenshotContentType"
+            formControlName="screenshotContentType"
+          />
+          @if (editForm.get('screenshot')!.invalid && (editForm.get('screenshot')!.dirty || editForm.get('screenshot')!.touched)) {
+            <div>
+              @if (editForm.get('screenshot')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_client" jhiTranslate="cdexApp.shipment.client">Client</label>
+          <select
+            class="form-control"
+            id="field_client"
+            data-cy="client"
+            name="client"
+            formControlName="client"
+            [compareWith]="compareClient"
+          >
+            @if (!editForm.get('client')!.value) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (clientOption of clientsSharedCollection; track $index) {
+              <option [ngValue]="clientOption">{{ clientOption.id }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['client'])!.invalid && (editForm.get(['client'])!.dirty || editForm.get(['client'])!.touched)) {
+          <div>
+            @if (editForm.get(['client'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+            }
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_provider" jhiTranslate="cdexApp.shipment.provider">Provider</label>
+          <select
+            class="form-control"
+            id="field_provider"
+            data-cy="provider"
+            name="provider"
+            formControlName="provider"
+            [compareWith]="compareProvider"
+          >
+            @if (!editForm.get('provider')!.value) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (providerOption of providersSharedCollection; track $index) {
+              <option [ngValue]="providerOption">{{ providerOption.id }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['provider'])!.invalid && (editForm.get(['provider'])!.dirty || editForm.get(['provider'])!.touched)) {
+          <div>
+            @if (editForm.get(['provider'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+            }
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_delivery" jhiTranslate="cdexApp.shipment.delivery">Delivery</label>
+          <select
+            class="form-control"
+            id="field_delivery"
+            data-cy="delivery"
+            name="delivery"
+            formControlName="delivery"
+            [compareWith]="compareDelivery"
+          >
+            <option [ngValue]="null"></option>
+            @for (deliveryOption of deliveriesSharedCollection; track $index) {
+              <option [ngValue]="deliveryOption">{{ deliveryOption.id }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_beneficiary" jhiTranslate="cdexApp.shipment.beneficiary">Beneficiary</label>
+          <select
+            class="form-control"
+            id="field_beneficiary"
+            data-cy="beneficiary"
+            name="beneficiary"
+            formControlName="beneficiary"
+            [compareWith]="compareBeneficiary"
+          >
+            @if (!editForm.get('beneficiary')!.value) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (beneficiaryOption of beneficiariesSharedCollection; track $index) {
+              <option [ngValue]="beneficiaryOption">{{ beneficiaryOption.id }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['beneficiary'])!.invalid && (editForm.get(['beneficiary'])!.dirty || editForm.get(['beneficiary'])!.touched)) {
+          <div>
+            @if (editForm.get(['beneficiary'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

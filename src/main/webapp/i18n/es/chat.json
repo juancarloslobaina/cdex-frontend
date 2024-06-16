@@ -1,0 +1,28 @@
+{
+  "cdexApp": {
+    "chat": {
+      "home": {
+        "title": "Chats",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Chat",
+        "createOrEditLabel": "Crear o editar Chat",
+        "notFound": "Ningún Chats encontrado"
+      },
+      "created": "Un nuevo Chat ha sido creado con el identificador {{ param }}",
+      "updated": "Un Chat ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Chat ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Chat {{ id }}?"
+      },
+      "detail": {
+        "title": "Chat"
+      },
+      "id": "ID",
+      "message": "Message",
+      "createdAt": "Created At",
+      "status": "Status",
+      "from": "From",
+      "to": "To"
+    }
+  }
+}

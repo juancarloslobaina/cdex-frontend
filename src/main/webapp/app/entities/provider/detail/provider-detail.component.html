@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (provider()) {
+      <div>
+        <h2 data-cy="providerDetailsHeading"><span jhiTranslate="cdexApp.provider.detail.title">Provider</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ provider()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.provider.referralCode">Referral Code</span></dt>
+          <dd>
+            <span>{{ provider()!.referralCode }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.provider.user">User</span></dt>
+          <dd>
+            <span>{{ provider()!.user?.login }}</span>
+          </dd>
+          <dt><span jhiTranslate="cdexApp.provider.client">Client</span></dt>
+          <dd>
+            @for (client of provider()!.clients; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/client', client.id, 'view']">{{ client?.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+          <dt><span jhiTranslate="cdexApp.provider.delivery">Delivery</span></dt>
+          <dd>
+            @for (delivery of provider()!.deliveries; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/delivery', delivery.id, 'view']">{{ delivery?.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/provider', provider()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

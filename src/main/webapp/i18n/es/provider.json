@@ -1,0 +1,27 @@
+{
+  "cdexApp": {
+    "provider": {
+      "home": {
+        "title": "Providers",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Provider",
+        "createOrEditLabel": "Crear o editar Provider",
+        "notFound": "Ningún Providers encontrado"
+      },
+      "created": "Un nuevo Provider ha sido creado con el identificador {{ param }}",
+      "updated": "Un Provider ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Provider ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Provider {{ id }}?"
+      },
+      "detail": {
+        "title": "Provider"
+      },
+      "id": "ID",
+      "referralCode": "Referral Code",
+      "user": "User",
+      "client": "Client",
+      "delivery": "Delivery"
+    }
+  }
+}
